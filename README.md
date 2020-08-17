@@ -2,9 +2,11 @@
 
 This is a proof of concept, not intended for production use.
 
-The goal of this application (i.e.: suite of apps) is to verify it's possible to hot-reload Apollo gateway service-list at runtime while still unmanaged, allowing downstream services to extend schemas of sibling federated resources.
+The goal of this application (i.e.: suite of apps) is to verify it's possible to hot-reload Apollo gateway service-list at runtime while still unmanaged. If this works it could allow downstream services to extend schemas of sibling federated resources after only reviewing it's schemas.
 
-If possible, services should be able to register/deregister with the gateway with zero downtime.
+## GOAL
+
+Prove it's possible to register multiple graphql apis together with apollo gateway during runtime using off-the-shelf opensource tech.
 
 ![architecture diagram](./assets/architecture.png)
 
