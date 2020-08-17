@@ -1,0 +1,120 @@
+version: "3"
+services:
+  banana-service:
+    command: ["node", "/app/banana-service/index.js"]
+    container_name: banana-service
+    image: federated-graphql:latest
+    volumes: [".:/app"]
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '1'
+          memory: 512M
+      replicas: 2
+    environment:
+      - NODE_ENV=DEV
+      - PORT=3000
+    environment:
+      - LOG_LEVEL=debug
+
+  apple-service:
+    command: ["node", "/app/apple-service/index.js"]
+    container_name: apple-service
+    image: federated-graphql:latest
+    volumes: [".:/app"]
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '1'
+          memory: 512M
+      replicas: 2
+    environment:
+      - NODE_ENV=DEV
+      - PORT=3000
+    environment:
+      - LOG_LEVEL=debug
+
+  user-service:
+    command: ["node", "/app/user-service/index.js"]
+    container_name: user-service
+    image: federated-graphql:latest
+    volumes: [".:/app"]
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '1'
+          memory: 512M
+      replicas: 2
+    environment:
+      - NODE_ENV=DEV
+      - PORT=3000
+    environment:
+      - LOG_LEVEL=debug
+
+  gateway:
+    container_name: gateway
+    image: federated-graphql:latest
+    volumes: [".:/app"]
+    depends_on:
+      - redis
+      - user-service
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '1'
+          memory: 512M
+      replicas: 2
+    environment:
+      - NODE_ENV=DEV
+      - USER_SERVICE=http://user-service:3000
+      - REDIS_HOST=redis
+      - LOG_LEVEL=debug
+    ports:
+      - 3000:3000
+    links:
+      - redis
+      - user-service
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    expose:
+      - 6379
+    ports:
+      - 6379:6379
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        window: 30s
+      resources:
+        limits:
+          cpus: '2'
+          memory: 100M
+        reservations:
+          cpus: '0.50'
+          memory: 50M
