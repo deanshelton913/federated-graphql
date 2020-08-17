@@ -29,6 +29,7 @@ Prove it's possible to register multiple graphql apis together with apollo gatew
       - Apple-Service (NOT registered yet)
       - Banana-Service (NOT registered yet)
 3. Visit the exposed Gateway playground at [http://localhost:3000/graphql](http://localhost:3000/graphql) and notice that only the user service has registed it's schema:
+
 ![only user](assets/gateway-playground.png)
 3. Register the banana-service using the exposed expressJS /register route:
 
@@ -37,7 +38,8 @@ curl -X POST -H 'Content-Type: application/json' http://localhost:3000/register 
 ```
 
 1. Refresh the gateway playground page [http://localhost:3000/graphql](http://localhost:3000/graphql) and notice that the banana-service service has now registed it's schema:
-   1. ![also banana](assets/gateway-playground2.png)
+
+![also banana](assets/gateway-playground2.png)
 
 1. Repeat to register the Apple-service.
 
