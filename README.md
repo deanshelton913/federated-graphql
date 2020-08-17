@@ -21,7 +21,9 @@ Prove it's possible to register multiple graphql apis together with apollo gatew
 ## Get Started
 
 1. Build the container. `docker build . -t federated-graphql:latest`.
+
 > NOTE: The docker-compose mounts disk for all containers (except redis) right now to help support a tight development loop. This should be running on a webpacked/minified production build if it's ever distributed.
+
 2. Boot up all apps by running `docker-compose up`
     - This will start-up the following services:
       - Redis
@@ -31,17 +33,18 @@ Prove it's possible to register multiple graphql apis together with apollo gatew
 3. Visit the exposed Gateway playground at [http://localhost:3000/graphql](http://localhost:3000/graphql) and notice that only the user service has registed it's schema:
 
 ![only user](assets/gateway-playground.png)
-3. Register the banana-service using the exposed expressJS /register route:
 
-```bash
-curl -X POST -H 'Content-Type: application/json' http://localhost:3000/register -d '{"name":"banana-user","url":"http://banana-service:3000"}'
-```
+4. Register the banana-service using the exposed expressJS /register route:
 
-1. Refresh the gateway playground page [http://localhost:3000/graphql](http://localhost:3000/graphql) and notice that the banana-service service has now registed it's schema:
+    ```bash
+    curl -X POST -H 'Content-Type: application/json' http://localhost:3000/register -d '{"name":"banana-user","url":"http://banana-service:3000"}'
+    ```
+
+5. Refresh the gateway playground page [http://localhost:3000/graphql](http://localhost:3000/graphql) and notice that the banana-service service has now registed it's schema:
 
 ![also banana](assets/gateway-playground2.png)
 
-1. Repeat to register the Apple-service.
+6. Repeat to register the Apple-service.
 
 ## Questions Still On The Table
 
